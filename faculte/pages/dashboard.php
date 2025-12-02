@@ -49,8 +49,8 @@ $role = $_SESSION['role'];
                         <a href="etudiants.php" class="list-group-item list-group-item-action">Étudiants</a>
                         <a href="absences.php" class="list-group-item list-group-item-action">Absences</a>
                     <?php elseif ($role == 'enseignant'): ?>
-                        <a href="mes_cours.php" class="list-group-item list-group-item-action">Mes Cours</a>
-                        <a href="absences.php" class="list-group-item list-group-item-action">Absences</a>
+                        <a href="mes_cours_enseignant.php" class="list-group-item list-group-item-action">Mes Cours</a>
+                        <a href="mes_absences_enseignant.php" class="list-group-item list-group-item-action">Gérer Absences</a>
                     <?php elseif ($role == 'etudiant'): ?>
                         <a href="mes_cours.php" class="list-group-item list-group-item-action">Mes Cours</a>
                         <a href="mes_absences.php" class="list-group-item list-group-item-action">Mes Absences</a>
