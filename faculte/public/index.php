@@ -20,6 +20,7 @@ require_once APP_PATH . '/models/Enseignant.php';
 require_once APP_PATH . '/models/Cours.php';
 require_once APP_PATH . '/models/Absence.php';
 require_once APP_PATH . '/models/Inscription.php';
+require_once APP_PATH . '/models/Paiement.php';
 
 User::setDB($conn);
 Etudiant::setDB($conn);
@@ -27,6 +28,7 @@ Enseignant::setDB($conn);
 Cours::setDB($conn);
 Absence::setDB($conn);
 Inscription::setDB($conn);
+Paiement::setDB($conn);
 
 // Simple router to handle incoming requests
 $request = $_GET['page'] ?? 'dashboard';
@@ -35,8 +37,8 @@ $controller_file = APP_PATH . '/controllers/' . $request . '_controller.php';
 // Check if user is logged in
 $is_logged_in = is_logged_in();
 
-// Route to login if not authenticated (except for login/register pages)
-if (!$is_logged_in && !in_array($request, ['login', 'register', 'logout'])) {
+// Route to login if not authenticated (except for login/register/about pages)
+if (!$is_logged_in && !in_array($request, ['login', 'register', 'logout', 'about'])) {
     header('Location: ?page=login');
     exit();
 }

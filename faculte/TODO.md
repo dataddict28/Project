@@ -1,6 +1,6 @@
-# Layout Modification Plan
+# TODO: Fix Content Collision with Navbar
 
 ## Tasks
-- [x] Update app/views/layout.php to make navbar fixed at top and remove sidebar
-- [x] Update assets/style.css for colorful animated background
-- [ ] Test layout responsiveness
+- [x] Increase padding-top of main content container from 6rem to 8rem in layout.php
+- [x] Add z-index: 1050 to .navbar in style.css to ensure it stays above sidebar
+- [x] Adjust .sidebar top position from 5rem to 6rem in style.css for better alignment

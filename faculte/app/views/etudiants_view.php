@@ -58,6 +58,8 @@
                             <th>Email</th>
                             <th>Matricule</th>
                             <th>Date naissance</th>
+                            <th>Semestre 1</th>
+                            <th>Semestre 2</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -69,8 +71,35 @@
                                 <td><span class="badge bg-primary"><?php echo htmlspecialchars($etud['numero_matricule'] ?? '-'); ?></span></td>
                                 <td><?php echo htmlspecialchars($etud['date_naissance'] ?? '-'); ?></td>
                                 <td>
-                                    <a href="?page=etudiants&delete=<?php echo $etud['id']; ?>" 
-                                       class="btn btn-danger btn-sm" 
+                                    <form method="POST" class="d-inline">
+                                        <input type="hidden" name="action" value="update_semester">
+                                        <input type="hidden" name="user_id" value="<?php echo $etud['id']; ?>">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="semestre1_valide"
+                                                   id="sem1_<?php echo $etud['id']; ?>"
+                                                   <?php echo ($etud['semestre1_valide'] ?? 0) ? 'checked' : ''; ?>>
+                                            <label class="form-check-label" for="sem1_<?php echo $etud['id']; ?>">
+                                                Validé
+                                            </label>
+                                        </div>
+                                </td>
+                                <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="semestre2_valide"
+                                                   id="sem2_<?php echo $etud['id']; ?>"
+                                                   <?php echo ($etud['semestre2_valide'] ?? 0) ? 'checked' : ''; ?>>
+                                            <label class="form-check-label" for="sem2_<?php echo $etud['id']; ?>">
+                                                Validé
+                                            </label>
+                                        </div>
+                                </td>
+                                <td>
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-check-circle me-1"></i>Mettre à jour
+                                        </button>
+                                    </form>
+                                    <a href="?page=etudiants&delete=<?php echo $etud['id']; ?>"
+                                       class="btn btn-danger btn-sm"
                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant?');">
                                         <i class="bi bi-trash me-1"></i>Supprimer
                                     </a>

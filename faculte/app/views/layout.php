@@ -63,21 +63,24 @@
                 <li><a href="?page=cours">Cours</a></li>
                 <li><a href="?page=inscriptions">Inscriptions</a></li>
                 <li><a href="?page=absences">Gérer Absences</a></li>
+                <li><a href="?page=paiements">Paiements</a></li>
             <?php elseif ($_SESSION['role'] === 'enseignant'): ?>
                 <li><a href="?page=mes_cours_enseignant">Mes Cours</a></li>
                 <li><a href="?page=mes_absences_enseignant">Gérer Absences</a></li>
                 <li><a href="?page=inscriptions_enseignant">Inscrire Étudiants</a></li>
             <?php elseif ($_SESSION['role'] === 'etudiant'): ?>
+                <li><a href="?page=profil">Mon Profil</a></li>
                 <li><a href="?page=mes_cours">Mes Cours</a></li>
                 <li><a href="?page=mes_absences">Mes Absences</a></li>
             <?php endif; ?>
 
+            <li><a href="?page=about">À propos</a></li>
             <li><a href="?page=logout">Déconnexion</a></li>
         </ul>
     </nav>
     <?php endif; ?>
 
-    <div class="container-fluid py-4" style="padding-top: 5rem;">
+    <div class="container-fluid py-4" style="padding-top: 8rem;">
         <div class="row g-4">
             <!-- Main Content -->
             <div class="col-12">

@@ -37,6 +37,7 @@ CREATE TABLE etudiants (
   date_naissance DATE,
   adresse TEXT,
   telephone VARCHAR(20),
+  photo VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -62,6 +63,18 @@ CREATE TABLE absences (
   FOREIGN KEY (etudiant_id) REFERENCES etudiants(id) ON DELETE CASCADE,
   FOREIGN KEY (cours_id) REFERENCES cours(id) ON DELETE CASCADE
 );
+
+CREATE TABLE paiements (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  etudiant_id INT NOT NULL,
+  montant DECIMAL(10,2) NOT NULL,
+  date_paiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  statut ENUM('paye', 'non_paye') NOT NULL DEFAULT 'non_paye',
+  FOREIGN KEY (etudiant_id) REFERENCES etudiants(id) ON DELETE CASCADE
+);
+
+ALTER TABLE etudiants ADD COLUMN semestre1_valide BOOLEAN DEFAULT FALSE;
+ALTER TABLE etudiants ADD COLUMN semestre2_valide BOOLEAN DEFAULT FALSE;
 
 INSERT INTO users (nom, email, mot_de_passe, role) VALUES 
 ('Administrateur', 'admin@faculte.com', '$2y$10$YbYYDKLHvFRJmKNcgXZLa.PkCgJN.aEAOvWqXcx3m1mCXPPgVGh7m', 'admin');

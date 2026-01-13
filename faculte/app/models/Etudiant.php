@@ -16,9 +16,9 @@ class Etudiant {
     }
     
     public static function getById($id) {
-        $query = "SELECT u.*, e.numero_matricule, e.date_naissance, e.adresse, e.telephone 
-                  FROM users u 
-                  LEFT JOIN etudiants e ON u.id = e.user_id 
+        $query = "SELECT u.*, e.numero_matricule, e.date_naissance, e.adresse, e.telephone, e.photo
+                  FROM users u
+                  LEFT JOIN etudiants e ON u.id = e.user_id
                   WHERE u.id = ? AND u.role = 'etudiant'";
         $stmt = self::$db->prepare($query);
         $stmt->bind_param('i', $id);
@@ -58,10 +58,49 @@ class Etudiant {
         return false;
     }
     
+    public static function updateProfile($user_id, $nom, $email, $date_naissance, $adresse, $telephone, $photo = null) {
+        // Update user info
+        $user_query = "UPDATE users SET nom = ?, email = ? WHERE id = ? AND role = 'etudiant'";
+        $user_stmt = self::$db->prepare($user_query);
+        $user_stmt->bind_param("ssi", $nom, $email, $user_id);
+        $user_stmt->execute();
+
+        // Update student profile
+        if ($photo !== null) {
+            $etud_query = "UPDATE etudiants SET date_naissance = ?, adresse = ?, telephone = ?, photo = ? WHERE user_id = ?";
+            $etud_stmt = self::$db->prepare($etud_query);
+            $etud_stmt->bind_param("ssssi", $date_naissance, $adresse, $telephone, $photo, $user_id);
+        } else {
+            $etud_query = "UPDATE etudiants SET date_naissance = ?, adresse = ?, telephone = ? WHERE user_id = ?";
+            $etud_stmt = self::$db->prepare($etud_query);
+            $etud_stmt->bind_param("sssi", $date_naissance, $adresse, $telephone, $user_id);
+        }
+        return $etud_stmt->execute();
+    }
+
     public static function delete($id) {
         $query = "DELETE FROM users WHERE id = ? AND role = 'etudiant'";
         $stmt = self::$db->prepare($query);
         $stmt->bind_param('i', $id);
+        return $stmt->execute();
+    }
+
+    public static function getAllWithPaymentsAndSemesters() {
+        $query = "SELECT u.*, e.id AS etudiant_id, e.numero_matricule, e.date_naissance, e.semestre1_valide, e.semestre2_valide,
+                         p.statut AS paiement_statut
+                  FROM users u
+                  INNER JOIN etudiants e ON u.id = e.user_id
+                  LEFT JOIN paiements p ON e.id = p.etudiant_id
+                  WHERE u.role = 'etudiant'";
+        $stmt = self::$db->prepare($query);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public static function updateSemesterValidation($user_id, $semestre1_valide, $semestre2_valide) {
+        $query = "UPDATE etudiants SET semestre1_valide = ?, semestre2_valide = ? WHERE user_id = ?";
+        $stmt = self::$db->prepare($query);
+        $stmt->bind_param('iii', $semestre1_valide, $semestre2_valide, $user_id);
         return $stmt->execute();
     }
 }
